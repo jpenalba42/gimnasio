@@ -216,7 +216,9 @@ def nuevo_usuario():
   
 @app.route("/nuevo_habito", methods=["GET", "POST"])
 def nuevo_habito():
-    usuarios = UsuarioDB.query.all()
+    usuario_id = session.get('user_id')
+    usuario = UsuarioDB.query.get(usuario_id)
+    habitos_usuario = usuario.habitos  # hábitos asignados a este usuario
     if request.method == "POST":
         nombre = request.form["nombre"]
         descripcion = request.form["descripcion"]
@@ -229,8 +231,8 @@ def nuevo_habito():
         db.session.add(habito)
         db.session.commit()
 
-        return redirect(url_for('inicio'))
-    return render_template("nuevo_habito.html", usuarios=usuarios)
+        return redirect(url_for('nuevo_habito'))
+    return render_template("nuevo_habito.html", habitos_usuario=habitos_usuario, current_user=g.current_user)
 
 
 @app.route("/registrar_seguimiento", methods=["GET", "POST"])
@@ -238,6 +240,7 @@ def nuevo_seguimiento():
     usuario_id = session.get('user_id')
     usuario = UsuarioDB.query.get(usuario_id)
     habitos = usuario.habitos  # hábitos asignados a este usuario
+    seguimientos = usuario.seguimientos
 
     if request.method == "POST":
         habit_id = int(request.form["habit_id"])
@@ -252,8 +255,9 @@ def nuevo_seguimiento():
         )
         db.session.add(seguimiento)
         db.session.commit()
-
-    return render_template("registrar_seguimiento.html", usuario=usuario, habitos=habitos)
+        return redirect(url_for('nuevo_seguimiento'))
+    
+    return render_template("registrar_seguimiento.html", usuario=usuario, habitos=habitos, seguimientos=seguimientos, current_user=g.current_user)
 
 """ @app.route("/registrar_seguimiento", methods=["GET", "POST"])
 def registrar_seguimiento():

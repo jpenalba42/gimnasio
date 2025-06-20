@@ -1,19 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <form action="/nuevo_habito" method="post">
-      <label for="nombre">Nombre:</label>
-      <input type="text" id="nombre" name="nombre" required />
+{% extends "base.html" %} {% block title %}Nuevo Hábito{% endblock %} {% block
+content %}
+<h2>Agregar Nuevo Hábito</h2>
+<form action="{{ url_for('nuevo_habito') }}" method="post" class="mt-3">
+  <div class="mb-3">
+    <label for="nombre" class="form-label">Nombre:</label>
+    <input
+      type="text"
+      id="nombre"
+      name="nombre"
+      class="form-control"
+      required
+    />
+  </div>
 
-      <label for="descripcion">Descripción:</label>
-      <textarea id="descripcion" name="descripcion" required></textarea>
+  <div class="mb-3">
+    <label for="descripcion" class="form-label">Descripción:</label>
+    <textarea
+      id="descripcion"
+      name="descripcion"
+      class="form-control"
+      rows="3"
+      required
+    ></textarea>
+  </div>
 
-      <button type="submit">Agregar Hábito</button>
-    </form>
-  </body>
-</html>
+  <button type="submit" class="btn btn-primary">Agregar Hábito</button>
+</form>
+
+{% if habitos_usuario %}
+<h3 class="mt-5">Tus Hábitos</h3>
+<table class="table table-striped mt-3">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Descripción</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for habito in habitos_usuario %}
+    <tr>
+      <td>{{ habito.nombre }}</td>
+      <td>{{ habito.descripcion }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="mt-5">No tienes hábitos registrados.</p>
+{% endif %} {% endblock %}
