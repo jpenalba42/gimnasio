@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2>Registrar Seguimiento para {{ usuario.username }}</h2>
+
+    <form method="post">
+      <label for="habit_id">Hábito:</label>
+      <select name="habit_id" required>
+        {% for habito in habitos %}
+        <option value="{{ habito.id }}">{{ habito.nombre }}</option>
+        {% endfor %}</select
+      ><br /><br />
+
+      <label for="fecha">Fecha:</label>
+      <input type="date" name="fecha" required /><br /><br />
+
+      <label for="cumplido">¿Cumplido?</label>
+      <input type="checkbox" name="cumplido" /><br /><br />
+
+      <input type="submit" value="Registrar" />
+    </form>
+  </body>
+</html>

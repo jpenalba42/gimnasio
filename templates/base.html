@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Gestor de Hábitos{% endblock %}</title>
+
+    <!-- Bootstrap 5 CSS CDN -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand">Gestor de Hábitos</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            {% if current_user and current_user.rol == 'admin' %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('listar_usuarios') }}"
+                >Usuarios</a
+              >
+            </li>
+            {% endif %} {% if current_user and current_user.rol == 'usuario' %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('nuevo_habito') }}"
+                >Nuevo Hábito</a
+              >
+            </li>
+            {% endif %}
+            {% if current_user and current_user.rol == 'usuario' %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('nuevo_seguimiento') }}"
+                >Registrar Seguimiento</a
+              >
+            </li>
+            {% endif %}
+          </ul>
+          </ul>
+          
+          <ul class="navbar-nav ms-auto">
+            {% if current_user %} {% if current_user.rol == 'admin' %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('admin_dashboard') }}"
+                >Panel de Administración</a
+              >
+            </li>
+            {% endif %}
+
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="userDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                {{ current_user.username }}
+              </a>
+              <ul
+                class="dropdown-menu dropdown-menu-end"
+                aria-labelledby="userDropdown"
+              >
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('logout') }}"
+                    >Cerrar sesión</a
+                  >
+                </li>
+              </ul>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('login') }}"
+                >Iniciar sesión</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('registro') }}"
+                >Registrarse</a
+              >
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mt-4">
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div
+        class="alert alert-{{ category }} alert-dismissible fade show"
+        role="alert"
+      >
+        {{ message }}
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
+      {% endfor %} {% endif %} {% endwith %} {% block content %}
+      <!-- Aquí va el contenido específico de cada página -->
+      {% endblock %}
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle CDN (incluye Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

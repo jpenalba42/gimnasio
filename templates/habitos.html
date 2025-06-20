@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Habitos</title>
+  </head>
+  <body>
+    {% for usuario in usuarios %}
+    <h3>Usuario : {{ usuario.username }}</h3>
+    {% if usuario.habitos %}
+    <ul>
+      {% for habito in usuario.habitos %}
+      <li><strong>{{habito.nombre}}</strong>: {{habito.descripcion}}</li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p><em>No se han encontrado hábitos para este usuario</em></p>
+    {% endif %} {% endfor %}
+  </body>
+</html>

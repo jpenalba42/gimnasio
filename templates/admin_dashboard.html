@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Dashboard de Administrador</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h2 class="mb-4">Panel de Administración</h2>
+
+      <h4>Usuarios</h4>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Usuario</th>
+            <th>Rol</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in usuarios %}
+          <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.rol }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <h4>Hábitos</h4>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for habito in habitos %}
+          <tr>
+            <td>{{ habito.id }}</td>
+            <td>{{ habito.nombre }}</td>
+            <td>{{ habito.descripcion }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <h4>Seguimientos</h4>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Usuario</th>
+            <th>Hábito</th>
+            <th>Fecha</th>
+            <th>Cumplido</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for s in seguimientos %}
+          <tr>
+            <td>{{ s.usuario.username }}</td>
+            <td>{{ s.habito.nombre }}</td>
+            <td>{{ s.fecha }}</td>
+            <td>{{ 'Sí' if s.cumplido else 'No' }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <a href="{{ url_for('logout') }}" class="btn btn-danger mt-3"
+        >Cerrar sesión</a
+      >
+    </div>
+  </body>
+</html>
